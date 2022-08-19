@@ -14,7 +14,7 @@ class Reservation {
     this.customerId = customerId;
     this.numGuests = numGuests;
     this.startAt = startAt;
-    this.notes = notes;
+    this._notes = notes;
   }
 
   /** formatter for startAt */
@@ -39,7 +39,15 @@ class Reservation {
 
     return results.rows.map(row => new Reservation(row));
   }
-  /** save this customer. */
+  
+  /** set falsey inputs in notes to empty string. */
+  get notes(){
+    return this._notes;
+  }
+  
+  set notes(val) {
+      this._notes = val || "";
+  }
 
   /** saving a reservation  */
   async save() {

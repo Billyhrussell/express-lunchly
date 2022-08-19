@@ -57,7 +57,7 @@ class Customer {
   }
 
   /** return customers full name  */
-  fullName() {
+  get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
 

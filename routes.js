@@ -97,6 +97,8 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
     numGuests,
     notes,
   });
+  debugger
+  reservation.notes = notes;
   await reservation.save();
 
   return res.redirect(`/${customerId}/`);
