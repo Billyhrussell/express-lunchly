@@ -60,6 +60,27 @@ class Customer {
   fullName(){
     return `${this.firstName} ${this.lastName}`;
   }
+  
+  /** find customers by search inquiry */
+  static async searchCustomers(searchInput){
+    const results = await db.query(
+      `SELECT id, first_name, last_name
+      FROM customers
+      WHERE CONCAT(first_name,' ',last_name) ILIKE $1
+      ORDER BY last_name, first_name`,
+      [`%${searchInput}%`]
+    );
+    
+    const searches = results.rows.map(c => new Customer(c));
+    
+    if(searches.length === 0){
+      const err = new Error(`No customers found similar to ${searchInput}`);
+      err.status= 404;
+      throw err;
+    }
+    
+    return searches;
+  }
 
   /** get all reservations for this customer. */
 
