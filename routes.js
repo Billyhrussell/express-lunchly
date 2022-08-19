@@ -13,12 +13,6 @@ const router = new express.Router();
 
 router.get("/", async function (req, res, next) {
 
-  // if(req.query.search){
-  //   const searchInput = req.query.search;
-  //   const customers = await Customer.searchCustomers(searchInput);
-  //   return res.render("customer_list.html", { customers });
-  // }
-
   const customers = await Customer.all();
   return res.render("customer_list.html", { customers });
 });
@@ -45,9 +39,15 @@ router.get("/search", async function (req, res, next){
   const searchInput = req.query.search;
 
   const customers = await Customer.searchCustomers(searchInput);
-  debugger
   return res.render("customer_list.html", { customers });
+})
 
+/** Get top ten customers */
+
+router.get("/top-ten/", async function(req,res,next){
+  const customers = await Customer.getTopTen();
+
+  res.render("customer_list.html", { customers});
 })
 
 /** Show a customer, given their ID. */
@@ -67,6 +67,8 @@ router.get("/:id/edit/", async function (req, res, next) {
 
   res.render("customer_edit_form.html", { customer });
 });
+
+
 
 /** Handle editing a customer. */
 
